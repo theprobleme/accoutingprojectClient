@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+         <!-- Set le jeu de caractère en UTF-8 et la langue au français -->
+        <meta charset="utf-8" lang="fr">
+
+        <!-- Réglages automatique à la création d'un projet avec VueCLI -->
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+        <title> <%= htmlWebpackPlugin.options.title %> </title>
+
+        <!-- Imports pour Vutify -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css">
+    </head>
+
+    <body>
+        <!-- Définie ce qui doit être affiché si les fonctionnalités de scrip ne sont
+             pas prise en charge ou si elles sont désactivées -->
+        <noscript>
+        <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+        </noscript>
+
+        <!-- Initilisation de l'application -->
+        <div id="app"> </div>
+    </body>
+
+    <style>
+        /* html {
+            overflow: hidden;
+        } */
+    </style>
+</html>
