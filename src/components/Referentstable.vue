@@ -155,48 +155,6 @@ export default {
                 });
         },
 
-        getReferentList() {
-            axios
-                 .get(`http://localhost:3000/api/user/referentstable`, {
-                    withCredentials: true,
-                })
-                .then((response) => {
-                    this.referents = response.data;
-                    console.log(this.referents)
-                })
-                .catch((error) => {
-                    switch (error.response.status) {
-                        case 403:
-                            this.$router.push({ name: "login" });
-                            break;
-
-                        default:
-                            break;
-                    }
-                });
-        },
-
-        getShortnameList() {
-            axios
-                 .get(`http://localhost:3000/api/user/referentstable`, {
-                    withCredentials: true,
-                })
-                .then((response) => {
-                    this.shortnames = response.data;
-                    console.log(this.referents)
-                })
-                .catch((error) => {
-                    switch (error.response.status) {
-                        case 403:
-                            this.$router.push({ name: "login" });
-                            break;
-
-                        default:
-                            break;
-                    }
-                });
-        },
-
         editLine(item) {
             this.editedIndex = this.lines.indexOf(item); // Regarde l'index
             this.editedLine = Object.assign({}, item); // Prend l'objet item qui était déjà écrit et le met dans editedLine, c'est
