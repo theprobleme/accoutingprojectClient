@@ -20,7 +20,9 @@
 
                             <!-- Titre de la fenetre -->
                             <v-card-title>
-                                <span class="headline"> <v-icon x-large color="green"> mdi-cards </v-icon> Club </span>
+                                <span class="headline">
+                                    <v-icon x-large color="green"> mdi-cards </v-icon> Club
+                                </span>
                             </v-card-title>
 
                             <!-- Contenu de la fenetre -->
@@ -91,10 +93,30 @@ export default {
     data() {
         return {
             headers: [
-                { text: "Prénom", value: "firstname", sortable: true, align: "start"},
-                { text: "NOM", value: "lastname", sortable: true, align: "start" },
-                { text: "Nom du club", value: "clubname", sortable: true, align: "start" },
-                { text: "Nom raccourci", value: "shortname", sortable: true, align: "start" },
+                {
+                    text: "Prénom",
+                    value: "firstname",
+                    sortable: true,
+                    align: "start",
+                },
+                {
+                    text: "NOM",
+                    value: "lastname",
+                    sortable: true,
+                    align: "start",
+                },
+                {
+                    text: "Nom du club",
+                    value: "clubname",
+                    sortable: true,
+                    align: "start",
+                },
+                {
+                    text: "Nom raccourci",
+                    value: "shortname",
+                    sortable: true,
+                    align: "start",
+                },
             ],
             page: 1,
             pageCount: 0,
@@ -111,8 +133,8 @@ export default {
             editedIndex: -1,
 
             editedLine: {
-                lastname : "",
-                firstname :"",
+                lastname: "",
+                firstname: "",
                 iduser: "",
                 clubname: "",
                 shortname: "",
@@ -120,7 +142,9 @@ export default {
             },
 
             rules: {
-                isField: [val => (val || '').length > 0 || 'Ce champ est requis'],
+                isField: [
+                    (val) => (val || "").length > 0 || "Ce champ est requis",
+                ],
             },
 
             referents: [],
@@ -130,8 +154,6 @@ export default {
 
     mounted: function () {
         this.getReferents();
-        this.getReferentList();
-        this.getShortnameList();
     },
 
     methods: {
@@ -142,16 +164,32 @@ export default {
                 })
                 .then((response) => {
                     this.lines = response.data;
+                    const arrayLastnames = this.lines.map((item) => {
+                        return item.lastname;
+                    });
+                    const arrayShortnames = this.lines.map((item) => {
+                        return item.shortname;
+                    });
+                    var arrayLastnamesFiltered = arrayLastnames.filter(
+                        function (value) {
+                            return value != null;
+                        }
+                    );
+                    var arrayShortnamesFiltered = arrayShortnames.filter(
+                        function (value) {
+                            return value != null;
+                        }
+                    );
+                    this.referents = arrayLastnamesFiltered;
+                    this.shortnames = arrayShortnamesFiltered;
+
+                    console.log(this.referents);
+                    console.log(this.shortnames);
+
+                    // console.log(arrayShortnames);
                 })
                 .catch((error) => {
-                    switch (error.response.status) {
-                        case 403:
-                            this.$router.push({ name: "login" });
-                            break;
-
-                        default:
-                            break;
-                    }
+                    console.log(error);
                 });
         },
 
@@ -159,7 +197,7 @@ export default {
             this.editedIndex = this.lines.indexOf(item); // Regarde l'index
             this.editedLine = Object.assign({}, item); // Prend l'objet item qui était déjà écrit et le met dans editedLine, c'est
             // comme ça qu'on repart des valeurs d'origines
-            this.previousLine = this.editedLine
+            this.previousLine = this.editedLine;
             this.dialog = true; // Affiche le dialog, on peut alors soit supprimer, soit sauvegarder
         },
 
@@ -167,7 +205,7 @@ export default {
             this.editedIndex = this.lines.indexOf(item); // Regarde l'index
             this.editedLine = Object.assign({}, item); // Prend l'objet item qui était déjà écrit et le met dans editedLine, c'est
             // comme ça qu'on repart des valeurs d'origines
-            console.log(this.editedLine)
+            console.log(this.editedLine);
             this.dialogDelete = true; // Affiche le dialog, on peut alors confirmer ou non
         },
 
