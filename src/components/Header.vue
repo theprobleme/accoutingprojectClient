@@ -1,7 +1,6 @@
 <template>
     <div class="header">
         <div class="d-flex align-center">
-            <v-img alt="Eseo logo" class="shrink mr-2" contain src="../assets/logo_eseo.png" transition="scale-transition" width="130" />
             <span class="font-weight-black shrink" style="font-size: 25px"> Comptabilité BDE ESEO ANGERS </span>
 
             <!-- The v-spacer component is useful when you want to fill available space or make space between two components -->
