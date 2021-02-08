@@ -60,7 +60,6 @@ export default {
                 .then((response) => {
                     // Ecoute de l'événement login
                     this.$router.app.$emit('test', response.data)
-                    
                 })
                 .catch((error) => {
                     this.message = error.response.data.message;

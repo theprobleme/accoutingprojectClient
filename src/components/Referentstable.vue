@@ -8,16 +8,8 @@
                     <v-spacer></v-spacer>
 
                     <v-dialog v-model="dialog" persistent>
-                        <!-- Bouton "+" d'ajout -->
-                        <template v-slot:activator="{ on, attrs }">
-                            <v-btn color="primary" dark class="mx-6" v-bind="attrs" v-on="on">
-                                <v-icon dark> mdi-plus </v-icon> Ajouter un nouveau lien
-                            </v-btn>
-                        </template>
-
                         <!-- Fenetre de saisie qui s'ouvre -->
                         <v-card>
-
                             <!-- Titre de la fenetre -->
                             <v-card-title>
                                 <span class="headline">
@@ -30,7 +22,7 @@
                                 <v-container>
                                     <v-row>
                                         <v-col>
-                                            <v-autocomplete v-model="editedLine.iduser" :items="referents" label="Référent" :rules="rules.isField" required> </v-autocomplete>
+                                            <v-autocomplete v-model="editedLine.lastname" :items="referents" label="Référent" :rules="rules.isField" required> </v-autocomplete>
                                         </v-col>
                                         <v-col>
                                             <v-autocomplete v-model="editedLine.shortname" :items="shortnames" label="Nom raccourci" :rules="rules.isField" required> </v-autocomplete>
@@ -117,6 +109,7 @@ export default {
                     sortable: true,
                     align: "start",
                 },
+                { text: "Actions", value: "actions", sortable: false },
             ],
             page: 1,
             pageCount: 0,
@@ -182,14 +175,30 @@ export default {
                     );
                     this.referents = arrayLastnamesFiltered;
                     this.shortnames = arrayShortnamesFiltered;
-
-                    console.log(this.referents);
-                    console.log(this.shortnames);
-
-                    // console.log(arrayShortnames);
                 })
                 .catch((error) => {
                     console.log(error);
+                });
+        },
+
+        modifiedReferent() {
+            axios
+                .post(
+                    `http://localhost:3000/api/user/referentstable`,
+                    {   
+                        clubname: this.editedLine.clubname,
+                        idclub: this.editedLine.idclub,
+                        shortname: this.editedLine.shortname,
+                        firstname: this.editedLine.firstname,
+                        iduser: this.editedLine.iduser,
+                        lastname: this.editedLine.lastname,
+                    },
+                    { withCredentials: true }
+                )
+                .then((response) => {
+                    (this.message = response.data.message),
+                        (this.type = response.data.type),
+                        (this.snackbar = 1);
                 });
         },
 
@@ -197,7 +206,7 @@ export default {
             this.editedIndex = this.lines.indexOf(item); // Regarde l'index
             this.editedLine = Object.assign({}, item); // Prend l'objet item qui était déjà écrit et le met dans editedLine, c'est
             // comme ça qu'on repart des valeurs d'origines
-            this.previousLine = this.editedLine;
+            console.log(this.editedLine);
             this.dialog = true; // Affiche le dialog, on peut alors soit supprimer, soit sauvegarder
         },
 
@@ -211,7 +220,6 @@ export default {
 
         deleteLineConfirm() {
             this.lines.splice(this.editedIndex, 1); // Retire (index, nb d'éléments, élément), remplace 1 élément de l'index "editedIndex" avec rien
-            // this.deleteClub();
             this.closeDelete(); // Ferme la fenêtre
         },
 
@@ -230,15 +238,13 @@ export default {
                 this.editedIndex = -1;
             });
         },
-
         save() {
             if (this.editedIndex > -1) {
                 Object.assign(this.lines[this.editedIndex], this.editedLine); // Modification de la ligne
-                // this.modifiedClub();
+                this.modifiedReferent();
             } else {
                 this.lines.push(this.editedLine); // Ajoute la ligne éditer dans editedLine
                 console.log(this.editedLine);
-                // this.createClub();
             }
             this.close();
         },
