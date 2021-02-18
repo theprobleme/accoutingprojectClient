@@ -61,6 +61,14 @@
                 <v-list-item-title> Plan comptable </v-list-item-title>
             </v-list-item>
 
+             <!-- Plan des analytiques -->
+            <v-list-item to="/analytictable">
+                <v-list-item-icon>
+                    <v-icon> mdi-table </v-icon>
+                </v-list-item-icon>
+                <v-list-item-title> Analytiques </v-list-item-title>
+            </v-list-item>
+
             <!-- Cloud -->
             <v-list-item :href="linkDrive" target="_blank">
                 <!-- src="https://1drv.ms/u/s!Ap-nRrwasEiscIg36RfIXUz3nDc?e=CPcXUb"  -->

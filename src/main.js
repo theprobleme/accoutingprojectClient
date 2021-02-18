@@ -20,6 +20,8 @@ import Clubstable from "../src/components/Clubstable"
 import Userstable from "../src/components/Userstable"
 import Accesstable from "../src/components/Accesstable"
 import Referentstable from "../src/components/Referentstable"
+import Analytictable from "../src/components/Analytictable"
+
 
 Vue.use(VueRouter)
 
@@ -91,6 +93,10 @@ const router = new VueRouter({
             path: "/referentstable",
             component: Referentstable,
             name : "referentstable",
+        } , {
+            path: "/analytictable",
+            component: Analytictable,
+            name: "analytictable",
         }
     ]
 })
