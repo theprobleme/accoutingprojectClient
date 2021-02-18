@@ -180,8 +180,7 @@ export default {
                         img: this.editedLine.img,
                         shortname: this.editedLine.shortname,
                         numaccount: this.editedLine.numaccount,
-                    },
-                    { withCredentials: true }
+                    }
                 )
                 .then((response) => {
                     // Ecoute de l'événement login

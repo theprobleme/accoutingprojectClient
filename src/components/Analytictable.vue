@@ -33,8 +33,7 @@ export default {
                     value: "name",
                 },
             ],
-            lines: [],
-            
+            lines: [],            
         };
     },
 

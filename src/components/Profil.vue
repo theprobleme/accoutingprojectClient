@@ -24,7 +24,6 @@
                 </v-card>
             </v-col>
 
-    
             <!-- Début de la zone des options -->
             <v-col v-if="isAdmin" cols="8" md="8" outlined>
                 <v-card>
@@ -182,7 +181,7 @@
                                     </v-card-title>
                                     <v-row>
                                         <v-col cols="12" md="4">
-                                            <v-text-field autocomplete="off" v-model="numAccount" name="numAccount" :rules="numRules" :counter="7" label="Numéro" required></v-text-field>
+                                            <v-text-field autocomplete="off" v-model="numAccount" name="numAccount" :rules="numRules" :counter="4" label="Numéro" required></v-text-field>
                                         </v-col>
 
                                         <v-col cols="12" md="4">
@@ -222,12 +221,65 @@
                             </v-card>
                         </v-tab-item>
 
+                        <!-- Analytiques -->
+                        <v-tab-item>
+                            <v-card flat>
+                                <v-card-title class="headline">
+                                    Modifier les analytiques
+                                </v-card-title>
+
+                                <v-card-text>
+                                    <v-card-title>
+                                        Ajouter une analytique
+                                    </v-card-title>
+                                    <v-row>
+                                        <v-col cols="12" md="4">
+                                            <v-text-field autocomplete="off" v-model="numAnalytic" name="numAnalytic" :rules="numRules" :counter="4" label="Numéro" required></v-text-field>
+                                        </v-col>
+
+                                        <v-col cols="12" md="4">
+                                            <v-text-field autocomplete="off" v-model="nameAnalytic" name="nameAnalytic" label="Libellé" required></v-text-field>
+                                        </v-col>
+
+                                        <v-col cols="12" md="4">
+                                            <v-btn class="ma-2" color="primary" type="submit" v-on:click="createAnalytic">
+                                                Ajouter
+                                            </v-btn>
+                                        </v-col>
+                                    </v-row>
+
+                                    <!--  :items="intitules"-->
+                                    <!-- :items="((line, index) in lines)" -->
+                                    <!-- :key="index" -->
+                                    <!-- :items="lines[0].name" -->
+                                    <v-card-title>
+                                        Supprimer une analytique
+                                    </v-card-title>
+                                    <v-row>
+                                        <v-col cols="12" md="4">
+                                            <v-autocomplete autocomplete="off" name="numAnalyticDelete" clearable v-model="numAnalyticDelete" :items="numsAnalyticFiltered" label="Numéro"> </v-autocomplete>
+                                        </v-col>
+
+                                        <v-col cols="12" md="4">
+                                            <v-autocomplete autocomplete="off" name="nameAnalyticDelete" clearable v-model="nameAnalyticDelete" :items="namesAnalyticFiltered" label="Libellé"> </v-autocomplete>
+                                        </v-col>
+
+                                        <v-col cols="12" md="4">
+                                            <v-btn class="ma-2" color="error" type="submit" v-on:click="deleteAnalytic">
+                                                Supprimer
+                                            </v-btn>
+                                        </v-col>
+                                    </v-row>
+                                </v-card-text>
+                            </v-card>
+                        </v-tab-item>
+
                         <!-- UTILISATEUR ET CLUBS -->
                         <v-tab-item>
                             <v-row align="center">
                                 <v-col cols="6" md="6" align="center">
                                     <v-card class="pa-2" outlined tile>
-                                        <v-card flat justify-center >
+                                        <v-card flat justify-center>
                                             <v-card-title class="headline">
                                                 Gestion des clubs
                                             </v-card-title>
@@ -251,7 +303,7 @@
                                 </v-col>
                                 <v-col cols="6" md="6" align="center">
                                     <v-card class="pa-2" outlined tile>
-                                        <v-card flat justify-center >
+                                        <v-card flat justify-center>
                                             <v-card-title class="headline">
                                                 Gestion des accès
                                             </v-card-title>
@@ -305,6 +357,7 @@ export default {
                 "OneDrive",
                 "Cours",
                 "Plan comptable",
+                "Analytiques",
                 "Clubs et Utilisateurs",
                 "Thème",
             ],
@@ -320,25 +373,36 @@ export default {
             linkDrive: null,
             linkCourses: null,
             dialogDelete: false,
+                        
+            numRules: [
+                (v) => !!v || "Champ requis",
+                (v) =>
+                    v.length <= 4 ||
+                    "Le numéro ne peut pas dépasser 4 chiffres ",
+            ],
+            lines: [],
+            linesAnalytic: [],
+
             nameAccountDelete: "",
             numAccountDelete: "",
             numAccount: "",
             nameAccount: "",
-            numRules: [
-                (v) => !!v || "Champ requis",
-                (v) =>
-                    v.length <= 7 ||
-                    "Le numéro ne peut pas dépasser 7 chiffres ",
-            ],
-            lines: [],
             namesFiltered: null,
             numsFiltered: null,
+
+            nameAnalyticDelete: "",
+            numAnalyticDelete: "",
+            numAnalytic: "",
+            nameAnalytic: "",
+            namesAnalyticFiltered: null,
+            numsAnalyticFiltered: null,
         };
     },
 
     mounted: function () {
         this.getProfil();
         this.getAccountchart();
+        this.getAnalytic();
     },
 
     methods: {
@@ -502,6 +566,66 @@ export default {
                         console.log(index);
                         this.numsFiltered.splice(index, 1);
                         this.namesFiltered.splice(index, 1);
+                    }
+                });
+        },
+    
+
+        createAnalytic() {
+            axios
+                .post(`http://localhost:3000/api/user/analytictable`, {
+                    withCredentials: true,
+                })
+                .then((response) => {
+                    this.message = response.data.message;
+                    this.type = response.data.type;
+                    this.snackbar = 1;
+                });
+        },
+
+        getAnalytic() {
+            axios
+                .get(`http://localhost:3000/api/user/analytictable`, {
+                    withCredentials: true,
+                })
+                .then((response) => {
+                    this.linesAnalytic = response.data;
+                    console.log(response.data)
+
+                    this.numsAnalyticFiltered = this.linesAnalytic.map((line) => {
+                        return line.num;
+                    });
+
+                    this.namesAnalyticFiltered = this.linesAnalytic.map((line) => {
+                        return line.name;
+                    });
+                });
+        },
+
+        deleteAnalytic() {
+            axios
+                .delete(`http://localhost:3000/api/user/analytictable`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+
+                    data: {
+                        numAnalyticDelete: this.numAnalyticDelete,
+                        nameAnalyticDelete: this.nameAnalyticDelete,
+                    },
+                    withCredentials: true,
+                })
+                .then((response) => {
+                    this.message = response.data.message;
+                    this.type = response.data.type;
+                    this.snackbar = 1;
+                    let index = this.numsAnalyticFiltered.findIndex(
+                        (line) => line === this.numAnalyticDelete
+                    );
+                    if (index > -1) {
+                        console.log(index);
+                        this.numsAnalyticFiltered.splice(index, 1);
+                        this.namesAnalyticFiltered.splice(index, 1);
                     }
                 });
         },

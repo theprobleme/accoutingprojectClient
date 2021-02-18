@@ -111,57 +111,81 @@ export default {
     props: {
         club: Object,
     },
-    
 
-    data: function() {
+    data: function () {
         return {
-        dialog: false,
-        dialogDelete: false,
+            dialog: false,
+            dialogDelete: false,
 
-        headers: [
-            {
-                align: "start",
-                text: "Code Journal",
-                value: "entryjournal",
-                sortable: false,
+            headers: [
+                {
+                    align: "start",
+                    text: "Code Journal",
+                    value: "entryjournal",
+                    sortable: false,
+                },
+                { text: "Pièce", value: "piece" },
+                { text: "Date", value: "date", sortable: false },
+                {
+                    text: "N° de compte",
+                    value: "accountnumber",
+                    sortable: false,
+                },
+                {
+                    text: "Intitulé du compte",
+                    value: "accountintitule",
+                    sortable: false,
+                },
+                {
+                    text: "N° d'analytique",
+                    value: "numanalytic",
+                    sortable: false,
+                },
+                {
+                    text: "Intitulé de l'analytique",
+                    value: "nameanalytic",
+                    sortable: false,
+                },
+                { text: "Libelle", value: "libelle", sortable: false },
+                { text: "Débit", value: "debit", sortable: false },
+                { text: "Crédit", value: "credit", sortable: false },
+                { text: "Actions", value: "actions", sortable: false },
+            ],
+
+            // Initialisation
+            lines: [],
+            editedIndex: -1,
+
+            linesAccountchart: [],
+            linesAnalytic: [],
+
+            numAnalytic: "",
+            nameAnalytic: "",
+            namesAnalyticFiltered: null,
+            numsAnalyticFiltered: null,
+
+            numAccount: "",
+            nameAccount: "",
+            namesAccountchartFiltered: null,
+            numsAccountchartFiltered: null,
+
+            comptes: ["602", "Vérifif à faire parmis les comptes"],
+
+            intitules: [
+                "Achat de consommable",
+                "Vérifif à faire parmis les comptes",
+            ],
+            intitule: "",
+
+            // Les items à éditer avec la fenetre pop-up
+            // Pas utilisé pour le moment mais devra l'être plus tard
+            editedLine: {
+                // Il faut que ce soit celui du club surquel on est
+                entryjournal: "BDE",
+                // Il faut que ce soit n+1 de la dernière ligne enregristré
+                piece: "67",
             },
-            { text: "Pièce", value: "piece" },
-            { text: "Date", value: "date", sortable: false },
-            { text: "N° de compte", value: "accountnumber", sortable: false },
-            {
-                text: "Intitulé du compte",
-                value: "accountintitule",
-                sortable: false,
-            },
-            { text: "Libelle", value: "libelle", sortable: false },
-            { text: "Débit", value: "debit", sortable: false },
-            { text: "Crédit", value: "credit", sortable: false },
-            { text: "Actions", value: "actions", sortable: false },
-        ],
-
-        // Initialisation
-        lines: [],
-        editedIndex: -1,
-
-        comptes: ["602", "Vérifif à faire parmis les comptes"],
-
-        intitules: [
-            "Achat de consommable",
-            "Vérifif à faire parmis les comptes",
-        ],
-        intitule: "",
-
-        // Les items à éditer avec la fenetre pop-up
-        editedLine: {
-            entryjournal: "",
-            piece: "",
-            accountnumber: 45,
-            accountintitule: "",
-            libelle: 0,
-            debit: 0,
-            credit: 0,
-        },
-        }
+        };
     },
 
     mounted: function () {
@@ -171,21 +195,60 @@ export default {
 
     methods: {
         getAccountingEntry() {
-            console.log(this.club.shortname)
+            console.log(this.club.shortname);
             axios
-                .get(`http://localhost:3000/api/user/inputtable`, 
-                {
+                .get(`http://localhost:3000/api/user/inputtable`, {
                     withCredentials: true,
                     params: {
-                        shortname : this.club.shortname
-                    }
+                        shortname: this.club.shortname,
+                    },
                 })
                 .then((response) => {
                     this.lines = response.data;
-                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.log(error);
+                });
+        },
+
+        getAccountchart() {
+            axios
+                .get(`http://localhost:3000/api/user/accountchart`, {
+                    withCredentials: true,
+                })
+                .then((response) => {
+                    this.linesAccountchart = response.data;
+
+                    this.numsAccountchartFiltered = this.lines.map((line) => {
+                        return line.num;
+                    });
+
+                    this.namesAccountchartFiltered = this.lines.map((line) => {
+                        return line.name;
+                    });
+                });
+        },
+
+        getAnalytic() {
+            axios
+                .get(`http://localhost:3000/api/user/analytictable`, {
+                    withCredentials: true,
+                })
+                .then((response) => {
+                    this.linesAnalytic = response.data;
+                    console.log(response.data);
+
+                    this.numsAnalyticFiltered = this.linesAnalytic.map(
+                        (line) => {
+                            return line.num;
+                        }
+                    );
+
+                    this.namesAnalyticFiltered = this.linesAnalytic.map(
+                        (line) => {
+                            return line.name;
+                        }
+                    );
                 });
         },
 

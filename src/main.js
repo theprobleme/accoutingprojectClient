@@ -1,8 +1,10 @@
 // Imports
+import axios from 'axios'
 import Vue from 'vue'                           // Initialisation de la vue de l'application
 import App from './App.vue'                     // Initilisation de l'app
 import vuetify from './plugins/vuetify';        // Initialisation du Framework de l'app : Vuetify
 import VueRouter from 'vue-router';             // Initialisation du router pour VueJS
+axios.defaults.withCredentials = true;
 
 // Imports des composants
 import Login from '../src/components/Login'
