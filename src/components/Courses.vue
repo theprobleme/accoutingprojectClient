@@ -26,9 +26,7 @@ export default {
     methods: {
         getCourses() {
             axios
-                .get(`http://localhost:3000/api/user/courses`, {
-                    withCredentials: true,
-                })
+                .get(`http://localhost:3000/api/user/courses`)
                 .then((response) => {
                     this.linkCourses = response.data[0].link;
                     this.loading = false;

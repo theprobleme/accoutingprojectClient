@@ -86,9 +86,7 @@ export default {
 
         getClubs() {
             axios
-                .get(`http://localhost:3000/api/user/clubs`, {
-                    withCredentials: true,
-                })
+                .get(`http://localhost:3000/api/user/clubs`)
                 .then((response) => {
                     this.clubs = response.data;
                     this.loading = false;

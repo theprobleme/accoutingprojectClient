@@ -20,9 +20,7 @@ export default {
     methods: {
         getForm() {
             axios
-                .get(`http://localhost:3000/api/user/form`, 
-                    { withCredentials: true }
-                )
+                .get(`http://localhost:3000/api/user/form`)
                 .then((response) => {
                     this.linkForm = response.data[0].link;
                     console.log(response.data)

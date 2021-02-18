@@ -45,9 +45,7 @@ export default {
     methods: {
         getAccountchart() {
             axios
-                .get(`http://localhost:3000/api/user/analytictable`,
-                    { withCredentials: true }
-                )
+                .get(`http://localhost:3000/api/user/analytictable`)
                 .then((response) => {
                     this.lines = response.data;
                 })   

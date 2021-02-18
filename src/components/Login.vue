@@ -47,16 +47,12 @@ export default {
         connexion() {
             axios
                 // Méthode
-                .post(
-                    // URL
-                    `http://localhost:3000/api/user/login`,
+                .post(`http://localhost:3000/api/user/login`,
                     {
                         // DATA
                         email: this.email,
                         password: this.password,
-                    },
-                    { withCredentials: true }
-                )
+                    })
                 .then((response) => {
                     // Ecoute de l'événement login
                     this.$router.app.$emit('test', response.data)

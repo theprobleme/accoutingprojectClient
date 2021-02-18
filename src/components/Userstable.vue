@@ -20,7 +20,9 @@
 
                             <!-- Titre de la fenetre -->
                             <v-card-title>
-                                <span class="headline"> <v-icon x-large color="green"> mdi-account </v-icon> Utilisateur </span>
+                                <span class="headline">
+                                    <v-icon x-large color="green"> mdi-account </v-icon> Utilisateur
+                                </span>
                             </v-card-title>
 
                             <!-- Contenu de la fenetre -->
@@ -112,7 +114,6 @@ export default {
                     text: "NOM",
                     value: "lastname",
                     sortable: true,
-
                 },
                 {
                     text: "Mail",
@@ -163,11 +164,13 @@ export default {
                 iduser: "",
             },
 
-            position: ['ADMIN', 'USER'],
+            position: ["ADMIN", "USER"],
 
             rules: {
-                isField: [val => (val || '').length > 0 || 'Ce champ est requis'],
-            }
+                isField: [
+                    (val) => (val || "").length > 0 || "Ce champ est requis",
+                ],
+            },
         };
     },
 
@@ -178,9 +181,7 @@ export default {
     methods: {
         getClubs() {
             axios
-                .get(`http://localhost:3000/api/user/userstable`, {
-                    withCredentials: true,
-                })
+                .get(`http://localhost:3000/api/user/userstable`)
                 .then((response) => {
                     this.lines = response.data;
                 })
@@ -199,26 +200,21 @@ export default {
         createUser() {
             axios
                 // Méthode
-                .post(
-                    // URL
-                    `http://localhost:3000/api/user/userstable`,
-                    {
-                        // DATA
-                        firstname : this.editedLine.firstname,
-                        lastname: this.editedLine.lastname,
-                        email: this.editedLine.email,
-                        password: this.editedLine.password,
-                        phone: this.editedLine.phone,
-                        position: this.editedLine.position,
-                    },
-                    { withCredentials: true }
-                )
+                .post(`http://localhost:3000/api/user/userstable`, {
+                    // DATA
+                    firstname: this.editedLine.firstname,
+                    lastname: this.editedLine.lastname,
+                    email: this.editedLine.email,
+                    password: this.editedLine.password,
+                    phone: this.editedLine.phone,
+                    position: this.editedLine.position,
+                })
                 .then((response) => {
                     // Ecoute de l'événement login
-                    this.message = response.data.message,
-                    this.type = response.data.type,
-                    this.snackbar = 1;
-                    console.log(response)
+                    (this.message = response.data.message),
+                        (this.type = response.data.type),
+                        (this.snackbar = 1);
+                    console.log(response);
                 })
                 .catch((error) => {
                     this.message = error.response.data.message;
@@ -227,25 +223,23 @@ export default {
         },
 
         deleteUser() {
-           axios
+            axios
                 .delete(`http://localhost:3000/api/user/userstable`, {
                     headers: {
                         "Content-Type": "application/json",
                     },
-
                     data: {
                         iduser: this.editedLine.iduser,
                         firstname: this.editedLine.firstname,
                         lastname: this.editedLine.lastname,
                         email: this.editedLine.lastname,
                     },
-                    withCredentials: true,
                 })
                 .then((response) => {
                     this.message = response.data.message;
                     this.type = response.data.type;
                     this.snackbar = 1;
-                    console.log(response)
+                    console.log(response);
                 })
                 .catch((error) => {
                     this.message = error.response.data.message;
@@ -255,19 +249,15 @@ export default {
 
         modifiedUser() {
             axios
-                .put(
-                    `http://localhost:3000/api/user/userstable`,
-                    { 
-                        iduser: this.editedLine.iduser,
-                        firstname: this.editedLine.firstname,
-                        lastname: this.editedLine.lastname,
-                        email: this.editedLine.email,
-                        password: this.editedLine.password,
-                        phone: this.editedLine.phone,
-                        position: this.editedLine.position,
-                    },
-                    { withCredentials: true },                    
-                )
+                .put(`http://localhost:3000/api/user/userstable`, {
+                    iduser: this.editedLine.iduser,
+                    firstname: this.editedLine.firstname,
+                    lastname: this.editedLine.lastname,
+                    email: this.editedLine.email,
+                    password: this.editedLine.password,
+                    phone: this.editedLine.phone,
+                    position: this.editedLine.position,
+                })
                 .then((response) => {
                     (this.message = response.data.message),
                         (this.type = response.data.type),
@@ -284,7 +274,7 @@ export default {
         deleteLine(item) {
             this.editedIndex = this.lines.indexOf(item);
             this.editedLine = Object.assign({}, item);
-            console.log(this.editedLine) //OK ICI il y a bien iduser 
+            console.log(this.editedLine); //OK ICI il y a bien iduser
             this.dialogDelete = true;
         },
 
@@ -316,7 +306,7 @@ export default {
                 this.modifiedUser();
             } else {
                 this.lines.push(this.editedLine);
-                this.createUser()
+                this.createUser();
             }
             this.close();
         },

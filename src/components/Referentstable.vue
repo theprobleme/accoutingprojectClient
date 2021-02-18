@@ -152,9 +152,7 @@ export default {
     methods: {
         getReferents() {
             axios
-                .get(`http://localhost:3000/api/user/referentstable`, {
-                    withCredentials: true,
-                })
+                .get(`http://localhost:3000/api/user/referentstable`)
                 .then((response) => {
                     this.lines = response.data;
                     const arrayLastnames = this.lines.map((item) => {
@@ -184,17 +182,14 @@ export default {
         modifiedReferent() {
             axios
                 .post(
-                    `http://localhost:3000/api/user/referentstable`,
-                    {   
+                    `http://localhost:3000/api/user/referentstable`, {   
                         clubname: this.editedLine.clubname,
                         idclub: this.editedLine.idclub,
                         shortname: this.editedLine.shortname,
                         firstname: this.editedLine.firstname,
                         iduser: this.editedLine.iduser,
                         lastname: this.editedLine.lastname,
-                    },
-                    { withCredentials: true }
-                )
+                })
                 .then((response) => {
                     (this.message = response.data.message),
                         (this.type = response.data.type),

@@ -20,7 +20,9 @@
 
                             <!-- Titre de la fenetre -->
                             <v-card-title>
-                                <span class="headline"> <v-icon x-large color="green"> mdi-cards </v-icon> Club </span>
+                                <span class="headline">
+                                    <v-icon x-large color="green"> mdi-cards </v-icon> Club
+                                </span>
                             </v-card-title>
 
                             <!-- Contenu de la fenetre -->
@@ -113,7 +115,6 @@ export default {
                 },
                 { text: "Image", value: "img", sortable: false },
                 { text: "Actions", value: "actions", sortable: false },
-                
             ],
             page: 1,
             pageCount: 0,
@@ -138,8 +139,10 @@ export default {
             },
 
             rules: {
-                isField: [val => (val || '').length > 0 || 'Ce champ est requis'],
-            }
+                isField: [
+                    (val) => (val || "").length > 0 || "Ce champ est requis",
+                ],
+            },
         };
     },
 
@@ -150,9 +153,7 @@ export default {
     methods: {
         getClubs() {
             axios
-                .get(`http://localhost:3000/api/user/clubstable`, {
-                    withCredentials: true,
-                })
+                .get(`http://localhost:3000/api/user/clubstable`)
                 .then((response) => {
                     this.lines = response.data;
                 })
@@ -184,10 +185,10 @@ export default {
                 )
                 .then((response) => {
                     // Ecoute de l'événement login
-                    this.message = response.data.message,
-                    this.type = response.data.type,
-                    this.snackbar = 1;
-                    console.log(response)
+                    (this.message = response.data.message),
+                        (this.type = response.data.type),
+                        (this.snackbar = 1);
+                    console.log(response);
                 })
                 .catch((error) => {
                     this.message = error.response.data.message;
@@ -196,7 +197,7 @@ export default {
         },
 
         deleteClub() {
-           axios
+            axios
                 .delete(`http://localhost:3000/api/user/clubstable`, {
                     headers: {
                         "Content-Type": "application/json",
@@ -205,14 +206,13 @@ export default {
                     data: {
                         clubname: this.editedLine.clubname,
                         shortname: this.editedLine.shortname,
-                    },
-                    withCredentials: true,
+                    }
                 })
                 .then((response) => {
                     this.message = response.data.message;
                     this.type = response.data.type;
                     this.snackbar = 1;
-                    console.log(response)
+                    console.log(response);
                 })
                 .catch((error) => {
                     this.message = error.response.data.message;
@@ -222,21 +222,17 @@ export default {
 
         modifiedClub() {
             axios
-                .put(
-                    `http://localhost:3000/api/user/clubstable`,
-                    { 
-                        clubname: this.editedLine.clubname,
-                        img: this.editedLine.img,
-                        shortname: this.editedLine.shortname,
-                        numaccount: this.editedLine.numaccount,
-                        idclub: this.editedLine.idclub,
-                    },
-                    { withCredentials: true },                    
-                )
+                .put(`http://localhost:3000/api/user/clubstable`, {
+                    clubname: this.editedLine.clubname,
+                    img: this.editedLine.img,
+                    shortname: this.editedLine.shortname,
+                    numaccount: this.editedLine.numaccount,
+                    idclub: this.editedLine.idclub,
+                })
                 .then((response) => {
                     (this.message = response.data.message),
-                        (this.type = response.data.type),
-                        (this.snackbar = 1);
+                    (this.type = response.data.type),
+                    (this.snackbar = 1);
                 });
         },
 
@@ -246,7 +242,7 @@ export default {
             this.editedIndex = this.lines.indexOf(item); // Regarde l'index
             this.editedLine = Object.assign({}, item); // Prend l'objet item qui était déjà écrit et le met dans editedLine, c'est
             // comme ça qu'on repart des valeurs d'origines
-            this.previousLine = this.editedLine
+            this.previousLine = this.editedLine;
             this.dialog = true; // Affiche le dialog, on peut alors soit supprimer, soit sauvegarder
             console.log(this.editedLine);
         },
@@ -255,7 +251,7 @@ export default {
             this.editedIndex = this.lines.indexOf(item); // Regarde l'index
             this.editedLine = Object.assign({}, item); // Prend l'objet item qui était déjà écrit et le met dans editedLine, c'est
             // comme ça qu'on repart des valeurs d'origines
-            console.log(this.editedLine)
+            console.log(this.editedLine);
             this.dialogDelete = true; // Affiche le dialog, on peut alors confirmer ou non
         },
 

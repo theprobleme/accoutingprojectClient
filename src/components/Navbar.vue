@@ -147,9 +147,7 @@ export default {
 
         getDrive() {
             axios
-                .get(`http://localhost:3000/api/user/drive`, {
-                    withCredentials: true,
-                })
+                .get(`http://localhost:3000/api/user/drive`)
                 .then((response) => {
                     this.linkDrive = response.data[0].link;
                 })

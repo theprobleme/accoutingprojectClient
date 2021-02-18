@@ -195,10 +195,8 @@ export default {
 
     methods: {
         getAccountingEntry() {
-            console.log(this.club.shortname);
             axios
                 .get(`http://localhost:3000/api/user/inputtable`, {
-                    withCredentials: true,
                     params: {
                         shortname: this.club.shortname,
                     },
@@ -213,9 +211,7 @@ export default {
 
         getAccountchart() {
             axios
-                .get(`http://localhost:3000/api/user/accountchart`, {
-                    withCredentials: true,
-                })
+                .get(`http://localhost:3000/api/user/accountchart`)
                 .then((response) => {
                     this.linesAccountchart = response.data;
 
@@ -231,9 +227,7 @@ export default {
 
         getAnalytic() {
             axios
-                .get(`http://localhost:3000/api/user/analytictable`, {
-                    withCredentials: true,
-                })
+                .get(`http://localhost:3000/api/user/analytictable`)
                 .then((response) => {
                     this.linesAnalytic = response.data;
                     console.log(response.data);

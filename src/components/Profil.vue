@@ -408,9 +408,7 @@ export default {
     methods: {
         getProfil() {
             axios
-                .get(`http://localhost:3000/api/user/profil`, {
-                    withCredentials: true,
-                })
+                .get(`http://localhost:3000/api/user/profil`)
                 .then((response) => {
                     this.profil = response.data;
                 })
@@ -428,10 +426,8 @@ export default {
 
         createForm() {
             axios
-                .put(
-                    `http://localhost:3000/api/user/form`,
+                .put(`http://localhost:3000/api/user/form`,
                     { link: this.linkForm },
-                    { withCredentials: true }
                 )
                 .then((response) => {
                     (this.message = response.data.message),
@@ -442,9 +438,7 @@ export default {
 
         deleteForm() {
             axios
-                .delete(`http://localhost:3000/api/user/form`, {
-                    withCredentials: true,
-                })
+                .delete(`http://localhost:3000/api/user/form`)
                 .then((response) => {
                     (this.message = response.data.message),
                         (this.type = response.data.type),
@@ -460,7 +454,6 @@ export default {
                 .put(
                     `http://localhost:3000/api/user/drive`,
                     { link: this.linkDrive },
-                    { withCredentials: true }
                 )
                 .then((response) => {
                     (this.message = response.data.message),
@@ -471,9 +464,7 @@ export default {
 
         deleteDrive() {
             axios
-                .delete(`http://localhost:3000/api/user/drive`, {
-                    withCredentials: true,
-                })
+                .delete(`http://localhost:3000/api/user/drive`)
                 .then((response) => {
                     (this.message = response.data.message),
                         (this.type = response.data.type),
@@ -489,7 +480,6 @@ export default {
                 .put(
                     `http://localhost:3000/api/user/courses`,
                     { link: this.linkCourses },
-                    { withCredentials: true }
                 )
                 .then((response) => {
                     (this.message = response.data.message),
@@ -500,9 +490,7 @@ export default {
 
         deleteCourses() {
             axios
-                .delete(`http://localhost:3000/api/user/courses`, {
-                    withCredentials: true,
-                })
+                .delete(`http://localhost:3000/api/user/courses`)
                 .then((response) => {
                     (this.message = response.data.message),
                         (this.type = response.data.type),
@@ -514,9 +502,7 @@ export default {
 
         createAccountchart() {
             axios
-                .post(`http://localhost:3000/api/user/accountchart`, {
-                    withCredentials: true,
-                })
+                .post(`http://localhost:3000/api/user/accountchart`)
                 .then((response) => {
                     this.message = response.data.message;
                     this.type = response.data.type;
@@ -526,9 +512,7 @@ export default {
 
         getAccountchart() {
             axios
-                .get(`http://localhost:3000/api/user/accountchart`, {
-                    withCredentials: true,
-                })
+                .get(`http://localhost:3000/api/user/accountchart`)
                 .then((response) => {
                     this.lines = response.data;
 
@@ -552,8 +536,7 @@ export default {
                     data: {
                         numAccountDelete: this.numAccountDelete,
                         nameAccountDelete: this.nameAccountDelete,
-                    },
-                    withCredentials: true,
+                    }
                 })
                 .then((response) => {
                     this.message = response.data.message;
@@ -573,9 +556,7 @@ export default {
 
         createAnalytic() {
             axios
-                .post(`http://localhost:3000/api/user/analytictable`, {
-                    withCredentials: true,
-                })
+                .post(`http://localhost:3000/api/user/analytictable`)
                 .then((response) => {
                     this.message = response.data.message;
                     this.type = response.data.type;
@@ -585,9 +566,7 @@ export default {
 
         getAnalytic() {
             axios
-                .get(`http://localhost:3000/api/user/analytictable`, {
-                    withCredentials: true,
-                })
+                .get(`http://localhost:3000/api/user/analytictable`)
                 .then((response) => {
                     this.linesAnalytic = response.data;
                     console.log(response.data)
@@ -612,8 +591,7 @@ export default {
                     data: {
                         numAnalyticDelete: this.numAnalyticDelete,
                         nameAnalyticDelete: this.nameAnalyticDelete,
-                    },
-                    withCredentials: true,
+                    }
                 })
                 .then((response) => {
                     this.message = response.data.message;

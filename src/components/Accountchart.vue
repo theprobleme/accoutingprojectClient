@@ -47,12 +47,8 @@ export default {
     methods: {
         getAccountchart() {
             axios
-                .get(`http://localhost:3000/api/user/accountchart`,
-                    { withCredentials: true }
-                )
-                .then((response) => {
-                    this.lines = response.data;
-                })   
+                .get(`http://localhost:3000/api/user/accountchart`)
+                .then((response) => { this.lines = response.data })   
         },
     },
 

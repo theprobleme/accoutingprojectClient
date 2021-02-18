@@ -64,9 +64,7 @@ export default {
 
         getContacts() {
             axios
-                .get(`http://localhost:3000/api/user/contact`, 
-                    { withCredentials: true }
-                )
+                .get('http://localhost:3000/api/user/contact')
                 .then((response) => {
                     this.contacts = response.data;
                 })
