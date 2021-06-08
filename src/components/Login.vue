@@ -59,6 +59,7 @@ export default {
                 })
                 .catch((error) => {
                     this.message = error.response.data.message;
+                    console.log(this.message)
                     this.etat = true;
                     
                 });
